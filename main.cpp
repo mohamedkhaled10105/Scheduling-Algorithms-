@@ -122,15 +122,48 @@ double roundRobin(int arrival[], int burst[], int n, int quantum) {
     return totalWaiting / n;
 }
 
+void printBarChart(double fcfs, double sjf, double rr) {
+    cout << "Bar Chart";  
+
+    int fcfsBars = (int)fcfs;
+    int sjfBars  = (int)sjf;
+    int rrBars   = (int)rr;
+
+    cout << "FCFS         : ";
+    for (int i = 0; i < fcfsBars; i++) {
+        cout << "*";
+    }
+    cout << " (" << fcfs << ")" << endl;
+
+    cout << "SJF          : ";
+    for (int i = 0; i < sjfBars; i++) {
+        cout << "*";
+    }
+    cout << " (" << sjf << ")" << endl;
+
+    cout << "Round Robin  : ";
+    for (int i = 0; i < rrBars; i++) {
+        cout << "*";
+    }
+    cout << " (" << rr << ")" << endl;
+}
+
 int main() {
     int n = 5;
 
     int arrival[MAX_PROCESSES] = {2, 0, 5, 1, 3};
     int burst[MAX_PROCESSES]   = {6, 4, 2, 7, 3};
 
-    cout << "FCFS Average Waiting Time: " << fcfs(arrival, burst, n) << endl;
-    cout << "SJF Average Waiting Time: " << sjf(arrival, burst, n) << endl;
-    cout << "Round Robin Average Waiting Time: " << roundRobin(arrival, burst, n, 3) << endl;
+    double fcfs_avg = fcfs(arrival, burst, n);
+double sjf_avg = sjf(arrival, burst, n);
+double rr_avg = roundRobin(arrival, burst, n, 3);
 
-    return 0;
+cout << "FCFS Average Waiting Time: " << fcfs_avg << endl;
+cout << "SJF Average Waiting Time: " << sjf_avg << endl;
+cout << "Round Robin Average Waiting Time: " << rr_avg << endl;
+
+// show chart
+printBarChart(fcfs_avg, sjf_avg, rr_avg);
+
+return 0;
 } 
