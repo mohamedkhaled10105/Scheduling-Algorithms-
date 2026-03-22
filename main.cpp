@@ -8,14 +8,41 @@ double fcfs(int arrival[], int burst[], int n) {
     double totalWaiting = 0;
 
     for (int i = 0; i < n; i++) {
-
-        if (currentTime < arrival[i]) {
+        if (currentTime < arrival[i])
             currentTime = arrival[i];
-        }
 
         totalWaiting += (currentTime - arrival[i]);
-
         currentTime += burst[i];
+    }
+
+    return totalWaiting / n;
+}
+
+double sjf(int arrival[], int burst[], int n) {
+    int done[MAX_PROCESSES] = {0};
+    int finished = 0;
+    int currentTime = 0;
+    double totalWaiting = 0;
+
+    while (finished < n) {
+        int index = -1;
+        int smallest = 100000;
+
+        for (int i = 0; i < n; i++) {
+            if (done[i] == 0 && arrival[i] <= currentTime && burst[i] < smallest) {
+                smallest = burst[i];
+                index = i;
+            }
+        }
+
+        if (index != -1) {
+            totalWaiting += (currentTime - arrival[index]);
+            currentTime += burst[index];
+            done[index] = 1;
+            finished++;
+        } else {
+            currentTime++; // nothing ready
+        }
     }
 
     return totalWaiting / n;
@@ -28,6 +55,7 @@ int main() {
     int burst[MAX_PROCESSES]   = {6, 4, 2, 7, 3};
 
     cout << "FCFS: " << fcfs(arrival, burst, n) << endl;
+    cout << "SJF: " << sjf(arrival, burst, n) << endl;
 
     return 0;
 }
